@@ -35,7 +35,7 @@ router.route("/").get(pageLimitSchema, checkSchemaError, getAllUsers);
 router.route("/search").get(searchUsersSchema, checkSchemaError, searchUsers);
 
 // Get user by ID
-router.route("/:userId").get(userIdSchema, checkSchemaError, getUserById);
+router.route("/:userId").get(getUserById);
 
 // Update user by ID
 router.route("/:userId").put(userIdSchema, updateUserSchema, checkSchemaError, updateUser);

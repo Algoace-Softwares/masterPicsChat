@@ -106,8 +106,9 @@ const getUserById = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
   try {
-    const user = await Users.findById(userId).select("-fcmTokens");
-    
+    const user = await Users.findOne({ authId: userId }).select("-fcmTokens");
+    console.log("🚀 ~ getUserById ~ user:", user);
+
     if (!user) {
       return res.status(STATUS_CODE.NOT_FOUND).json({
         success: false,
@@ -173,7 +174,7 @@ const updateUser = async (req: Request, res: Response) => {
         ...(email && { email }),
         ...(notification !== undefined && { notification }),
       },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     ).select("-fcmTokens");
 
     logger.info(`User updated: ${userId}`);
@@ -197,11 +198,9 @@ const updateUserStatus = async (req: Request, res: Response) => {
   const { onlineStatus } = req.body;
 
   try {
-    const user = await Users.findByIdAndUpdate(
-      userId,
-      { onlineStatus },
-      { new: true, runValidators: true }
-    ).select("-fcmTokens");
+    const user = await Users.findByIdAndUpdate(userId, { onlineStatus }, { new: true, runValidators: true }).select(
+      "-fcmTokens",
+    );
 
     if (!user) {
       return res.status(STATUS_CODE.NOT_FOUND).json({
@@ -210,7 +209,7 @@ const updateUserStatus = async (req: Request, res: Response) => {
       });
     }
 
-    logger.info(`User status updated: ${userId} - ${onlineStatus ? 'online' : 'offline'}`);
+    logger.info(`User status updated: ${userId} - ${onlineStatus ? "online" : "offline"}`);
 
     return res.status(STATUS_CODE.SUCCESS).json({
       success: true,
@@ -308,12 +307,4 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-export {
-  createUser,
-  getAllUsers,
-  getUserById,
-  updateUser,
-  updateUserStatus,
-  searchUsers,
-  deleteUser,
-};
+export { createUser, getAllUsers, getUserById, updateUser, updateUserStatus, searchUsers, deleteUser };
