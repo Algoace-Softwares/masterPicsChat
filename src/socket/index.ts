@@ -59,10 +59,12 @@ const initializeSocketIO = (ioClient: SocketIOServer) => {
   ioClient.use((socket, next) => {
     if (socket?.handshake?.headers?.authorization === API_BYPASS_KEY) {
       // if bypass key then setting random credential and hardcode ones
-      socket.data.user = {
-        _id: socket?.id,
-        name: "shaheer",
-      };
+      // socket.data.user = {
+      //   _id: socket?.id,
+      //   name: "shaheer",
+      // };
+      socketAuthMiddleware(socket, next);
+
       next();
     } else {
       socketAuthMiddleware(socket, next);
