@@ -4,7 +4,7 @@ export const API_BYPASS_KEY = "674536e5-cbc9-46d2-9d7a-8b774b195a2c";
 const DATABASE_USER = "shaheerahmed";
 const DATABASE_PASSWORD = "Admin1234";
 
-export const DATABASE_URL = `mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@cluster0.mfeudzb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+export const DATABASE_URL = `mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@cluster0.p6vs6qc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 export const STATUS_CODE = {
   CREATED: 201,
