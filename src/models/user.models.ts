@@ -28,7 +28,7 @@ const userSchema = new Schema<UserType>(
       trim: true,
     },
 
-
+    profileImage: { type: String, default: "" },
     name: { type: String, default: "" },
     username: { type: String, default: "", unique: true, index: true },
 
@@ -46,7 +46,6 @@ const userSchema = new Schema<UserType>(
       type: Boolean,
       default: false,
     },
-
   },
   { timestamps: true },
 );

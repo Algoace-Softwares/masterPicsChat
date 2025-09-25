@@ -131,11 +131,11 @@ const getUserById = async (req: Request, res: Response) => {
  */
 const updateUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  const { name, username, email, notification } = req.body;
+  const { name, username, email, notification, profileImage } = req.body;
 
   try {
     // Check if user exists
-    const existingUser = await Users.findById(userId);
+    const existingUser = await Users.findOne({ authId: userId });
     if (!existingUser) {
       return res.status(STATUS_CODE.NOT_FOUND).json({
         success: false,
@@ -145,7 +145,7 @@ const updateUser = async (req: Request, res: Response) => {
 
     // Check if email is being updated and if it's already taken
     if (email && email !== existingUser.email) {
-      const emailExists = await Users.findOne({ email, _id: { $ne: userId } });
+      const emailExists = await Users.findOne({ email, authId: { $ne: userId } });
       if (emailExists) {
         return res.status(STATUS_CODE.CONFLICT_DATA).json({
           success: false,
@@ -156,7 +156,7 @@ const updateUser = async (req: Request, res: Response) => {
 
     // Check if username is being updated and if it's already taken
     if (username && username !== existingUser.username) {
-      const usernameExists = await Users.findOne({ username, _id: { $ne: userId } });
+      const usernameExists = await Users.findOne({ username, authId: { $ne: userId } });
       if (usernameExists) {
         return res.status(STATUS_CODE.CONFLICT_DATA).json({
           success: false,
@@ -167,11 +167,12 @@ const updateUser = async (req: Request, res: Response) => {
 
     // Update user
     const updatedUser = await Users.findByIdAndUpdate(
-      userId,
+      existingUser._id,
       {
         ...(name && { name }),
         ...(username && { username }),
         ...(email && { email }),
+        ...(profileImage && { profileImage }),
         ...(notification !== undefined && { notification }),
       },
       { new: true, runValidators: true },

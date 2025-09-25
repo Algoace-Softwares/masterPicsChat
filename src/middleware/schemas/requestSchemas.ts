@@ -162,11 +162,24 @@ export const updateUserSchema = checkSchema({
     isBoolean: { errorMessage: "notification must be a boolean" },
     optional: true,
   },
+  profileImage: {
+    in: ["body"],
+    isString: { errorMessage: "profileImage must be a string" },
+    optional: true,
+  },
 });
 
 // User ID schema
 export const userIdSchema = checkSchema({
-  userId: bsonIdSchema({ label: "userId", dataIn: "params" }) as unknown as ParamSchema,
+  userId: {
+    in: ["params", "query", "body"], // adjust depending on where you send it
+    isString: true,
+    trim: true,
+    notEmpty: {
+      errorMessage: "userId is required",
+    },
+    errorMessage: "userId must be a string",
+  },
 });
 
 // Search users schema
