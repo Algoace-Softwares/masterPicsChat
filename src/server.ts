@@ -10,7 +10,7 @@ configDotenv({
 import { httpServer } from "./app";
 import { connectToDatabase } from "./database";
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 connectToDatabase()
   .then(() => {
