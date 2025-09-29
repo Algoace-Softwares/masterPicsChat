@@ -86,6 +86,8 @@ app.set("ioClient", ioClient);
  */
 // app.set("firebaseClient", firebaseApp);
 app.get("/", (req: Request, res: Response) => {
+  console.log("🚀 ~ res:", res);
+  console.log("🚀 ~ req:", req);
   return res.status(200).json({ success: true, greeting: "Hello / from API" });
 });
 /*
