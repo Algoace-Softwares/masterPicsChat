@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint --fix",
     "format": "npx prettier . --write",
+    "start:prod": "npm run build && pm2 start dist/server.js --name masterpics",
     "start:pm2": "pm2 start \"npm run prod\" --name masterpics",
     "restart:pm2": "pm2 restart masterpics",
     "stop:pm2": "pm2 stop masterpics",
