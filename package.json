@@ -12,7 +12,12 @@
     "build": "rm -rf dist && tsc",
     "lint": "eslint .",
     "lint-fix": "eslint --fix",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "start:pm2": "pm2 start \"npm run prod\" --name masterpics",
+    "restart:pm2": "pm2 restart masterpics",
+    "stop:pm2": "pm2 stop masterpics",
+    "logs:pm2": "pm2 logs masterpics",
+    "delete:pm2": "pm2 delete masterpics"
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",
