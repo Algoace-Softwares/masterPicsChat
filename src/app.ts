@@ -3,9 +3,9 @@ import cookieParser from "cookie-parser";
 import { Server as SocketServer } from "socket.io";
 import { initializeSocketIO } from "./socket";
 import { rateLimit } from "express-rate-limit";
-// import { getApps } from "firebase-admin/app";
-// import * as admin from "firebase-admin";
-// import firebaseKey from "./config/firebaseKey.json";
+import { getApps } from "firebase-admin/app";
+import * as admin from "firebase-admin";
+import firebaseKey from "./config/firebaseKey.json";
 import cors from "cors";
 import { createServer } from "http";
 import chatApis from "./routes/chatRoutes";
@@ -15,20 +15,18 @@ import morgan from "morgan";
 
 const app: Express = express();
 const httpServer = createServer(app);
-// const alreadyCreatedAps = getApps();
+const alreadyCreatedAps = getApps();
 
-// const firebaseApp =
-//   alreadyCreatedAps.length === 0
-//     ? admin.initializeApp({
-//         credential: admin.credential.cert(firebaseKey as unknown as string),
-//       })
-//     : alreadyCreatedAps[0];
+const firebaseApp =
+  alreadyCreatedAps.length === 0
+    ? admin.initializeApp({
+        credential: admin.credential.cert(firebaseKey as unknown as string),
+      })
+    : alreadyCreatedAps[0];
 
 const morganFormat = ":method :url :status :response-time ms";
 
-// const firebaseApp = initializeApp({
-//   credential: cert(serviceAccountKey as unknown as string),
-// });
+
 
 const limiter = rateLimit({
   // 1 minutes
@@ -84,7 +82,7 @@ app.set("ioClient", ioClient);
 /*
  ** Setting custom variables
  */
-// app.set("firebaseClient", firebaseApp);
+app.set("firebaseClient", firebaseApp);
 app.get("/", (req: Request, res: Response) => {
   console.log("🚀 ~ res:", res);
   console.log("🚀 ~ req:", req);
@@ -99,7 +97,6 @@ app.use("/api/v1/users", userApis);
  ** Socket client initializer
  */
 initializeSocketIO(ioClient);
-// initializeFirebaseApp()
 /*
  ** Middleware to return response of URL NOT FOUND
  */
@@ -114,11 +111,4 @@ app.use((req: Request, res: Response) => {
 
 export { httpServer };
 
-// TODO: scalling io server
-// TODO: fcm sending messages
-// TODO: group chat
-// TODO: logging solutions
-// TODO: online/offline status
-// TODO: optamise read/unread count
-// TODO: last seen status
-// TODO: rate limiting
+

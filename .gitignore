@@ -81,6 +81,7 @@ public
 # Storybook build outputs
 .out
 .storybook-out
+firebaseKey.json
 
 # Temporary folders
 tmp/
