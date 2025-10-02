@@ -42,9 +42,6 @@ router.route("/:userId").get(userIdSchema, checkSchemaError, getUserById);
 
 // Update user by ID
 router.route("/:userId").put(userIdSchema, updateUserSchema, checkSchemaError, updateUser);
-
-// Update user status (online/offline)
-router.route("/:userId/status").patch(userIdSchema, updateUserStatusSchema, checkSchemaError, updateUserStatus);
 /*
  ** Update user fcm token
  */

@@ -191,37 +191,6 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-/*
- ** Update user online status
- */
-const updateUserStatus = async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  const { onlineStatus } = req.body;
-
-  try {
-    const user = await Users.findByIdAndUpdate(userId, { onlineStatus }, { new: true, runValidators: true }).select(
-      "-fcmTokens",
-    );
-
-    if (!user) {
-      return res.status(STATUS_CODE.NOT_FOUND).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-
-    logger.info(`User status updated: ${userId} - ${onlineStatus ? "online" : "offline"}`);
-
-    return res.status(STATUS_CODE.SUCCESS).json({
-      success: true,
-      message: "User status updated successfully",
-      data: user,
-    });
-  } catch (error) {
-    logger.error("Error updating user status:", error);
-    return formatedError(res, error);
-  }
-};
 
 /*
  ** Search users by name, username, or email
@@ -351,4 +320,4 @@ const updateUserFcm = async (req: Request, res: Response) => {
   }
 };
 
-export { createUser, getAllUsers, getUserById, updateUser, updateUserStatus, searchUsers, deleteUser, updateUserFcm };
+export { createUser, getAllUsers, getUserById, updateUser,  searchUsers, deleteUser, updateUserFcm };
