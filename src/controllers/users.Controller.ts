@@ -3,7 +3,7 @@ import logger from "../utils/logger";
 import { Users } from "../models/user.models";
 import { formatedError } from "../utils/formatedError";
 import { STATUS_CODE } from "../config";
-
+//   http://localhost:3000/api/v1/
 /*
  ** Create a new user
  */

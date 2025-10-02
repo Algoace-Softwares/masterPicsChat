@@ -33,6 +33,10 @@ router.route("/").get(pageLimitSchema, checkSchemaError, getAllUsers);
 
 // Search users by name, username, or email
 router.route("/search").get(searchUsersSchema, checkSchemaError, searchUsers);
+/*
+ ** Update user fcm token
+ */
+router.route("/fcm/:userId").patch(userIdSchema, updateUserFcmSchema, checkSchemaError, updateUserFcm);
 
 // Get user by ID
 // router.route("/:userId").get(getUserById);
@@ -40,10 +44,6 @@ router.route("/:userId").get(userIdSchema, checkSchemaError, getUserById);
 
 // Update user by ID
 router.route("/:userId").put(userIdSchema, updateUserSchema, checkSchemaError, updateUser);
-/*
- ** Update user fcm token
- */
-router.route("/fcm/:userId").patch(userIdSchema, updateUserFcmSchema, checkSchemaError, updateUserFcm);
 
 // Delete user by ID
 router.route("/:userId").delete(userIdSchema, checkSchemaError, deleteUser);
