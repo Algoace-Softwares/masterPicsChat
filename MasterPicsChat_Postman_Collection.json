@@ -1,0 +1,578 @@
+{
+  "info": {
+    "name": "MasterPicsChat API Collection",
+    "description": "Complete API collection for MasterPicsChat application with user management and chat functionality",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "apiVersion",
+      "value": "api/v1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Root Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"authId\": \"firebase_auth_id_123\",\n  \"email\": \"user@example.com\",\n  \"name\": \"John Doe\",\n  \"username\": \"johndoe\",\n  \"notification\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/users?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (min: 1)"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page (min: 5, max: 500)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/users/search?query=john&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "users", "search"],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "john",
+                  "description": "Search term (2-50 characters)"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (min: 1)"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page (min: 1, max: 100)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "users", "{{userId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Updated\",\n  \"username\": \"johnupdated\",\n  \"email\": \"john.updated@example.com\",\n  \"notification\": false,\n  \"profileImage\": \"https://example.com/profile.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "users", "{{userId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"onlineStatus\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/users/{{userId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "users", "{{userId}}", "status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "users", "{{userId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Chat Management",
+      "item": [
+        {
+          "name": "Create Chat Room",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"member\": \"{{memberId}}\",\n  \"createdBy\": \"{{userId}}\",\n  \"messageType\": \"text\",\n  \"text\": \"Hello! Let's start chatting.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Chat Rooms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/{{userId}}?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "{{userId}}"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (min: 1)"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page (min: 5, max: 500)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Chat by User IDs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat?firstUser={{userId}}&secondUser={{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat"],
+              "query": [
+                {
+                  "key": "firstUser",
+                  "value": "{{userId}}",
+                  "description": "First user ID"
+                },
+                {
+                  "key": "secondUser",
+                  "value": "{{memberId}}",
+                  "description": "Second user ID"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Chat Messages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/messages/{{chatRoomId}}/{{memberId}}?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "messages", "{{chatRoomId}}", "{{memberId}}"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (min: 1)"
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Items per page (min: 5, max: 500)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Unread Count for User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/unread-total/{{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "unread-total", "{{memberId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Unread Count",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/count/{{chatRoomId}}/{{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "count", "{{chatRoomId}}", "{{memberId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Online Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"onlineStatus\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/online-status/{{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "online-status", "{{memberId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Chat Room",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/{{chatRoomId}}/{{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "{{chatRoomId}}", "{{memberId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Message Management",
+      "item": [
+        {
+          "name": "Send Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"memberId\": \"{{memberId}}\",\n  \"messageType\": \"text\",\n  \"text\": \"Hello! This is a test message.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/message/{{chatRoomId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "message", "{{chatRoomId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send Message with Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"memberId\": \"{{memberId}}\",\n  \"messageType\": \"image\",\n  \"image\": \"https://example.com/image.jpg\",\n  \"text\": \"Check out this image!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/message/{{chatRoomId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "message", "{{chatRoomId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send Message with Video",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"memberId\": \"{{memberId}}\",\n  \"messageType\": \"video\",\n  \"video\": \"https://example.com/video.mp4\",\n  \"text\": \"Check out this video!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/message/{{chatRoomId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "message", "{{chatRoomId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send Message with Audio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"memberId\": \"{{memberId}}\",\n  \"messageType\": \"audio\",\n  \"audio\": \"https://example.com/audio.mp3\",\n  \"text\": \"Voice message\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/message/{{chatRoomId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "message", "{{chatRoomId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send Bulk Messages",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"members\": [\"{{memberId1}}\", \"{{memberId2}}\", \"{{memberId3}}\"],\n  \"senderId\": \"{{userId}}\",\n  \"messageType\": \"text\",\n  \"text\": \"Bulk message to multiple users\",\n  \"postId\": \"{{postId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/messages",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "messages"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Edit Message",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"This message has been edited\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/message/{{messageId}}/{{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "message", "{{messageId}}", "{{memberId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Message",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/message/{{messageId}}/{{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "message", "{{messageId}}", "{{memberId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User Messages",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/{{apiVersion}}/chat/user-messages/{{chatRoomId}}/{{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiVersion}}", "chat", "user-messages", "{{chatRoomId}}", "{{memberId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "apiVersion",
+      "value": "api/v1",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "507f1f77bcf86cd799439011",
+      "type": "string",
+      "description": "Sample user ID - replace with actual user ID"
+    },
+    {
+      "key": "memberId",
+      "value": "507f1f77bcf86cd799439012",
+      "type": "string",
+      "description": "Sample member ID - replace with actual member ID"
+    },
+    {
+      "key": "chatRoomId",
+      "value": "507f1f77bcf86cd799439013",
+      "type": "string",
+      "description": "Sample chat room ID - replace with actual chat room ID"
+    },
+    {
+      "key": "messageId",
+      "value": "507f1f77bcf86cd799439014",
+      "type": "string",
+      "description": "Sample message ID - replace with actual message ID"
+    },
+    {
+      "key": "postId",
+      "value": "507f1f77bcf86cd799439015",
+      "type": "string",
+      "description": "Sample post ID - replace with actual post ID"
+    },
+    {
+      "key": "memberId1",
+      "value": "507f1f77bcf86cd799439016",
+      "type": "string",
+      "description": "Sample member ID 1 for bulk messages"
+    },
+    {
+      "key": "memberId2",
+      "value": "507f1f77bcf86cd799439017",
+      "type": "string",
+      "description": "Sample member ID 2 for bulk messages"
+    },
+    {
+      "key": "memberId3",
+      "value": "507f1f77bcf86cd799439018",
+      "type": "string",
+      "description": "Sample member ID 3 for bulk messages"
+    }
+  ]
+}

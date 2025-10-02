@@ -7,6 +7,7 @@ import {
   updateUser,
   updateUserStatus,
   searchUsers,
+  updateUserFcm,
 } from "../controllers/users.Controller";
 import { checkSchemaError } from "../middleware/validations";
 import {
@@ -16,6 +17,7 @@ import {
   searchUsersSchema,
   pageLimitSchema,
   updateUserStatusSchema,
+  updateUserFcmSchema,
 } from "../middleware/schemas/requestSchemas";
 
 // DEFINE EXPRESS ROUTES
@@ -43,6 +45,10 @@ router.route("/:userId").put(userIdSchema, updateUserSchema, checkSchemaError, u
 
 // Update user status (online/offline)
 router.route("/:userId/status").patch(userIdSchema, updateUserStatusSchema, checkSchemaError, updateUserStatus);
+/*
+ ** Update user fcm token
+ */
+router.route("/fcm/:userId").patch(userIdSchema, updateUserFcmSchema, checkSchemaError, updateUserFcm);
 
 // Delete user by ID
 router.route("/:userId").delete(userIdSchema, checkSchemaError, deleteUser);
