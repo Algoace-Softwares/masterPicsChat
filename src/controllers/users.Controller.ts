@@ -316,10 +316,10 @@ const updateUserFcm = async (req: Request, res: Response) => {
 
   try {
     // validation user
-    const userData = await Users.findById(userId);
+    const userData = await Users.findOne({ authId: userId });
     console.log("🚀 ~ updateUserFcm ~ userData:", userData);
     if (!userData) {
-      return res.status(STATUS_CODE.NOT_FOUND).json({ success: false, message: "user with id not found" });
+      return res.status(STATUS_CODE.NOT_FOUND).json({ success: false, message: "user with authId not found" });
     }
     let tempFcmTokens = [];
 
@@ -334,8 +334,8 @@ const updateUserFcm = async (req: Request, res: Response) => {
     }
     console.log("tempFcmTokens:", tempFcmTokens);
     // saving tokens
-    await Users.findByIdAndUpdate(
-      userId,
+    await Users.findOneAndUpdate(
+      { authId: userId },
       {
         fcmTokens: tempFcmTokens,
       },
