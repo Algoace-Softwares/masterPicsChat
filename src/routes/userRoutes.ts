@@ -5,7 +5,6 @@ import {
   getAllUsers,
   getUserById,
   updateUser,
-  updateUserStatus,
   searchUsers,
   updateUserFcm,
 } from "../controllers/users.Controller";
@@ -16,7 +15,6 @@ import {
   userIdSchema,
   searchUsersSchema,
   pageLimitSchema,
-  updateUserStatusSchema,
   updateUserFcmSchema,
 } from "../middleware/schemas/requestSchemas";
 
