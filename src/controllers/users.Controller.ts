@@ -8,7 +8,7 @@ import { STATUS_CODE } from "../config";
  ** Create a new user
  */
 const createUser = async (req: Request, res: Response) => {
-  const { authId, email, name, username, notification = true } = req.body;
+  const { authId, email, name, username, notification = true, fcmToken = [] } = req.body;
 
   try {
     // Check if user with email already exists
@@ -48,7 +48,7 @@ const createUser = async (req: Request, res: Response) => {
       username,
       notification,
       onlineStatus: false,
-      fcmTokens: [],
+      fcmTokens: fcmToken,
     });
 
     logger.info(`New user created: ${newUser._id}`);

@@ -83,6 +83,7 @@ app.set("ioClient", ioClient);
  ** Setting custom variables
  */
 app.set("firebaseClient", firebaseApp);
+
 app.get("/", (req: Request, res: Response) => {
   console.log("🚀 ~ res:", res);
   console.log("🚀 ~ req:", req);
