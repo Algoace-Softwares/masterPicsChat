@@ -10,6 +10,7 @@ import { STATUS_CODE } from "../config";
 const createUser = async (req: Request, res: Response) => {
   const { authId, email, name, username, notification = true, fcmToken = [] } = req.body;
   console.log("🚀 ~ createUser ~ req.body:", req.body);
+  logger.info("createUser", req.body);
 
   try {
 
