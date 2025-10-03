@@ -80,7 +80,7 @@ const getUserById = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
   try {
-    const user = await Users.findOne({ authId: userId }).select("-fcmTokens");
+    const user = await Users.findOne({ authId: userId })
     console.log("🚀 ~ getUserById ~ user:", user);
 
     if (!user) {
