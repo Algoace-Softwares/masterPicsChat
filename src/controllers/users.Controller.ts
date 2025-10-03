@@ -8,7 +8,7 @@ import { STATUS_CODE } from "../config";
  ** Create a new user
  */
 const createUser = async (req: Request, res: Response) => {
-  const { authId, email, name, username, notification = true, fcmToken = [] } = req.body;
+  const { authId, email, name, username, notification = true, fcmToken, deviceId, } = req.body;
   console.log("🚀 ~ createUser ~ req.body:", req.body);
   logger.info("createUser", req.body);
 
@@ -22,7 +22,7 @@ const createUser = async (req: Request, res: Response) => {
       username,
       notification,
       onlineStatus: false,
-      fcmTokens: fcmToken,
+      fcmTokens: [{ deviceId, fcmToken }],
     });
 
     logger.info(`New user created: ${newUser._id}`);
