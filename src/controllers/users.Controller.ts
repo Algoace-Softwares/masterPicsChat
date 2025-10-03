@@ -268,48 +268,6 @@ const deleteUser = async (req: Request, res: Response) => {
     return formatedError(res, error);
   }
 };
-/*
- ** updating user fcm token
- */
-const updateUserFcm = async (req: Request, res: Response) => {
-  const userId = req.params.userId;
-  const { fcmToken, deviceId, isFcmUpdate } = req.body;
 
-  try {
-    // validation user
-    const userData = await Users.findOne({ authId: userId });
-    console.log("🚀 ~ updateUserFcm ~ userData:", userData);
-    if (!userData) {
-      return res.status(STATUS_CODE.NOT_FOUND).json({ success: false, message: "user with authId not found" });
-    }
-    let tempFcmTokens = [];
 
-    if (isFcmUpdate) {
-      // filtering data to data the previous added token on device id
-      tempFcmTokens = userData.fcmTokens.filter((fcm) => fcm.deviceId !== deviceId);
-      // pusing new token
-      tempFcmTokens.push({ deviceId, fcmToken });
-    } else {
-      // getting all token other then privided device id
-      tempFcmTokens = userData.fcmTokens.filter((fcm) => fcm.deviceId !== deviceId);
-    }
-    console.log("tempFcmTokens:", tempFcmTokens);
-    // saving tokens
-    await Users.findOneAndUpdate(
-      { authId: userId },
-      {
-        fcmTokens: tempFcmTokens,
-      },
-      { new: true, runValidators: true },
-    );
-    return res.status(STATUS_CODE.SUCCESS).json({ success: true, message: "Token successfully updated" });
-  } catch (error: unknown) {
-    console.log("🚀 ~ getUserData ~ error:", error);
-    /*
-     ** Formated Error
-     */
-    return formatedError(res, error);
-  }
-};
-
-export { createUser, getAllUsers, getUserById, updateUser,  searchUsers, deleteUser, updateUserFcm };
+export { createUser, getAllUsers, getUserById, updateUser,  searchUsers, deleteUser };

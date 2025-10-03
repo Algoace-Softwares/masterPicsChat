@@ -6,7 +6,6 @@ import {
   getUserById,
   updateUser,
   searchUsers,
-  updateUserFcm,
 } from "../controllers/users.Controller";
 import { checkSchemaError } from "../middleware/validations";
 import {
@@ -15,7 +14,6 @@ import {
   userIdSchema,
   searchUsersSchema,
   pageLimitSchema,
-  updateUserFcmSchema,
 } from "../middleware/schemas/requestSchemas";
 
 // DEFINE EXPRESS ROUTES
@@ -34,16 +32,15 @@ router.route("/").get(pageLimitSchema, checkSchemaError, getAllUsers);
 // Search users by name, username, or email
 router.route("/search").get(searchUsersSchema, checkSchemaError, searchUsers);
 /*
- ** Update user fcm token
+ ** Update user
  */
-router.route("/fcm/:userId").patch(userIdSchema, updateUserFcmSchema, checkSchemaError, updateUserFcm);
 
 // Get user by ID
 // router.route("/:userId").get(getUserById);
 router.route("/:userId").get(userIdSchema, checkSchemaError, getUserById);
 
 // Update user by ID
-router.route("/:userId").put(userIdSchema, updateUserSchema, checkSchemaError, updateUser);
+router.route("/:userId").patch(userIdSchema, updateUserSchema, checkSchemaError, updateUser);
 
 // Delete user by ID
 router.route("/:userId").delete(userIdSchema, checkSchemaError, deleteUser);

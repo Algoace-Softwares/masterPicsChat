@@ -206,36 +206,3 @@ export const updateUserStatusSchema = checkSchema({
   },
 });
 
-// Validation schema for updating a user
-export const updateUserFcmSchema = checkSchema({
-  fcmToken: {
-    in: ["body"],
-    optional: true,
-    isString: {
-      errorMessage: "fcmToken must be string",
-    },
-    isLength: {
-      options: { min: 1 },
-      errorMessage: "Invalid fcmToken",
-      bail: true,
-    },
-  },
-  deviceId: {
-    in: ["body"],
-    isString: {
-      errorMessage: "fcmToken must be string",
-    },
-    isLength: {
-      options: { min: 1 },
-      errorMessage: "Invalid deviceId",
-      bail: true,
-    },
-  },
-
-  isFcmUpdate: {
-    in: ["body"],
-    isBoolean: {
-      errorMessage: "isFcmUpdate status must be a boolean",
-    },
-  },
-});
