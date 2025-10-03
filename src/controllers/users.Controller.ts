@@ -12,34 +12,6 @@ const createUser = async (req: Request, res: Response) => {
   console.log("🚀 ~ createUser ~ req.body:", req.body);
 
   try {
-    // Check if user with email already exists
-    const existingUserByEmail = await Users.findOne({ email });
-    if (existingUserByEmail) {
-      return res.status(STATUS_CODE.CONFLICT_DATA).json({
-        success: false,
-        message: "User with this email already exists",
-      });
-    }
-
-    // Check if user with authId already exists
-    const existingUserByAuthId = await Users.findOne({ authId });
-    if (existingUserByAuthId) {
-      return res.status(STATUS_CODE.CONFLICT_DATA).json({
-        success: false,
-        message: "User with this authId already exists",
-      });
-    }
-
-    // Check if username is taken (if provided)
-    if (username) {
-      const existingUserByUsername = await Users.findOne({ username });
-      if (existingUserByUsername) {
-        return res.status(STATUS_CODE.CONFLICT_DATA).json({
-          success: false,
-          message: "Username is already taken",
-        });
-      }
-    }
 
     // Create new user
     const newUser = await Users.create({
