@@ -9,6 +9,7 @@ import { STATUS_CODE } from "../config";
  */
 const createUser = async (req: Request, res: Response) => {
   const { authId, email, name, username, notification = true, fcmToken = [] } = req.body;
+  console.log("🚀 ~ createUser ~ req.body:", req.body);
 
   try {
     // Check if user with email already exists
@@ -131,52 +132,43 @@ const getUserById = async (req: Request, res: Response) => {
  */
 const updateUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  const { name, username, email, notification, profileImage } = req.body;
-
+  const { name,   notification, profileImage, fcmToken, deviceId, isFcmUpdate } = req.body;
+  console.log("🚀 ~ updateUser ~ req.body:", req.body);
   try {
     // Check if user exists
-    const existingUser = await Users.findOne({ authId: userId });
-    if (!existingUser) {
+    const userData = await Users.findOne({ authId: userId });
+    if (!userData) {
       return res.status(STATUS_CODE.NOT_FOUND).json({
         success: false,
         message: "User not found",
       });
     }
 
-    // Check if email is being updated and if it's already taken
-    if (email && email !== existingUser.email) {
-      const emailExists = await Users.findOne({ email, authId: { $ne: userId } });
-      if (emailExists) {
-        return res.status(STATUS_CODE.CONFLICT_DATA).json({
-          success: false,
-          message: "Email is already taken by another user",
-        });
-      }
+    let tempFcmTokens = [];
+
+    if (isFcmUpdate) {
+      // filtering data to data the previous added token on device id
+      tempFcmTokens = userData.fcmTokens.filter((fcm) => fcm.deviceId !== deviceId);
+      // pusing new token
+      tempFcmTokens.push({ deviceId, fcmToken });
+    } else {
+      // getting all token other then privided device id
+      tempFcmTokens = userData.fcmTokens.filter((fcm) => fcm.deviceId !== deviceId);
     }
 
-    // Check if username is being updated and if it's already taken
-    if (username && username !== existingUser.username) {
-      const usernameExists = await Users.findOne({ username, authId: { $ne: userId } });
-      if (usernameExists) {
-        return res.status(STATUS_CODE.CONFLICT_DATA).json({
-          success: false,
-          message: "Username is already taken by another user",
-        });
-      }
-    }
+
 
     // Update user
     const updatedUser = await Users.findByIdAndUpdate(
-      existingUser._id,
+      userData._id,
       {
-        ...(name && { name }),
-        ...(username && { username }),
-        ...(email && { email }),
-        ...(profileImage && { profileImage }),
-        ...(notification !== undefined && { notification }),
+        name,
+        profileImage,
+        notification,
+        fcmTokens: tempFcmTokens,
       },
       { new: true, runValidators: true },
-    ).select("-fcmTokens");
+    )
 
     logger.info(`User updated: ${userId}`);
 
