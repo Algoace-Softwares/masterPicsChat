@@ -221,7 +221,7 @@ const deleteUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
   try {
-    const user = await Users.findByIdAndDelete(userId);
+    const user = await Users.findOneAndDelete({ authId: userId });
 
     if (!user) {
       return res.status(STATUS_CODE.NOT_FOUND).json({
