@@ -39,7 +39,7 @@ export const isChatRoomSchema = checkSchema({
 export const sendMessageSchema = checkSchema({
   memberId: bsonIdSchema({ label: "member" }) as unknown as ParamSchema,
   messageType: messageMediaType({ label: "messageType", required: false }) as unknown as ParamSchema,
-  text: textSchema({ label: "text", required: false, maxLength: 500 }) as unknown as ParamSchema,
+  text: textSchema({ label: "text", required: false, maxLength: 1000 }) as unknown as ParamSchema,
   audio: urlSchema({ label: "audio", required: false }) as unknown as ParamSchema,
   video: urlSchema({ label: "video", required: false }) as unknown as ParamSchema,
   image: urlSchema({ label: "image", required: false }) as unknown as ParamSchema,
